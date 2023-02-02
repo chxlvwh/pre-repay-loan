@@ -18,7 +18,7 @@ module.exports = {
 		sourceType: 'module',
 	},
 	plugins: ['react', '@typescript-eslint'],
-
+	ignorePatterns: ['.eslintrc.js', '.package.json', 'src/stories/**/*', 'dist'],
 	rules: {
 		'@typescript-eslint/interface-name-prefix': 'off',
 		'@typescript-eslint/explicit-function-return-type': 'off',

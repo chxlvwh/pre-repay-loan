@@ -1,10 +1,6 @@
 import React from 'react';
 import { IFormProps } from '../components/searchForm/SearchForm';
-import {
-	calMonthAmount,
-	calMonthObj,
-	calTerm,
-} from '../utils/utils';
+import { calMonthAmount, calMonthObj, calTerm } from '../utils/utils';
 import currency from 'currency.js';
 import dayjs from 'dayjs';
 
