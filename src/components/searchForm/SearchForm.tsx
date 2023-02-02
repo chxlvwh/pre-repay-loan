@@ -37,22 +37,41 @@ export interface IFormProps {
 }
 const SearchForm: React.FC = () => {
 	const [form] = Form.useForm<IFormProps>();
+	// const initialValues: IFormProps = {
+	// 	loanAmount: 1190000,
+	// 	loanYearTerm: 0,
+	// 	loanMonthTerm: 360,
+	// 	loanType: 0,
+	// 	rates: 6.027,
+	// 	firstRepayDate: dayjs('2019-10'),
+	// 	preRepayList: [
+	// 		{
+	// 			prepayDate: dayjs('2023-03'),
+	// 			prepayType: 0,
+	// 			prepayAmount: 100000,
+	// 			newRates: 6.027,
+	// 			newRepayType: 0,
+	// 			repayPlan: 0,
+	// 			newMonthlyAmount: 7155.32,
+	// 		},
+	// 	],
+	// };
 	const initialValues: IFormProps = {
-		loanAmount: 1190000,
+		loanAmount: 0,
 		loanYearTerm: 0,
-		loanMonthTerm: 360,
+		loanMonthTerm: 0,
 		loanType: 0,
-		rates: 6.027,
-		firstRepayDate: dayjs('2019-10'),
+		rates: 0,
+		firstRepayDate: dayjs(),
 		preRepayList: [
 			{
-				prepayDate: dayjs('2023-03'),
+				prepayDate: dayjs(),
 				prepayType: 0,
-				prepayAmount: 100000,
-				newRates: 6.027,
+				prepayAmount: 0,
+				newRates: 0,
 				newRepayType: 0,
 				repayPlan: 0,
-				newMonthlyAmount: 7155.32,
+				newMonthlyAmount: 0,
 			},
 		],
 	};
