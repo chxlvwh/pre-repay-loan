@@ -4,7 +4,7 @@ import {
 	getBeforePreRepayTableColumns,
 	getBeforePreRepayTableData,
 } from '../../contants';
-import { IFormProps } from '../searchForm/SearchForm';
+import { IFormProps } from '../SearchForm/SearchForm';
 
 const BeforePreRepayTable = ({ formValues }: { formValues: IFormProps }) => {
 	return (

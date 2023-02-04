@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import dayjs from 'dayjs';
-import { IFormProps } from '../components/searchForm/SearchForm';
-import { loanTypesMapping } from '../contants';
+import { IFormProps } from '../components/SearchForm/SearchForm';
+import { ILoanDetailElement, loanTypesMapping } from '../contants';
+import { useStore } from '../reducer';
 
 /**
  * 1、等额本金还款：月供=(借款金额/借款月数)+(借款金额-累计已还本金)×月利率;
@@ -19,23 +20,38 @@ export const calMonthObj = (
 	rates: number,
 	monthAmount: number,
 	firstMonth: dayjs.Dayjs,
-	currentMonth: dayjs.Dayjs,
+	lastMonth: dayjs.Dayjs,
 	index: number,
+	detailList: ILoanDetailElement[][],
 ) => {
+	useEffect(() => {
+		dispatch({ type: 'update_loan_detail_list', payload: detailList });
+	}, [detailList]);
+	const { dispatch } = useStore();
+	detailList[index] = [];
 	const repaidMonths =
-		currentMonth.diff(firstMonth, 'month') + (index === 0 ? 1 : 0);
+		lastMonth.diff(firstMonth, 'month') + (index === 0 ? 1 : 0);
 	const monthRates = rates / 100 / 12;
 	let monthSeed = 0;
 	let monthInterest = 0;
 	let restSeed = seed;
 	let repaidInterest = 0;
-	Array.from(new Array(repaidMonths)).forEach((item) => {
+	Array.from(new Array(repaidMonths)).forEach((item, i) => {
 		const lastRestSeed = restSeed;
 		restSeed = restSeed * (1 + monthRates) - monthAmount;
 		monthSeed = lastRestSeed - restSeed;
 		monthInterest = monthAmount - monthSeed;
 		repaidInterest += monthInterest;
+		detailList[index].push({
+			term: i,
+			date: dayjs(),
+			amount: monthAmount,
+			interest: monthInterest,
+			seed: monthSeed,
+			restSeed,
+		});
 	});
+	localStorage.setItem('loan_detail_List', JSON.stringify(detailList));
 	return {
 		monthSeed,
 		monthInterest,

@@ -1,16 +1,18 @@
 import React from 'react';
 import './App.css';
-import HeaderPage from './components/header/HeaderPage';
-import SearchForm from './components/searchForm/SearchForm';
+import { router } from './router';
+import { RouterProvider } from 'react-router-dom';
+import { StoreProvider } from './reducer';
 
 function App() {
 	return (
-		<div className="App">
-			<div className="wrapper">
-				<HeaderPage />
-				<SearchForm />
+		<StoreProvider>
+			<div className="App">
+				<div className="wrapper">
+					<RouterProvider router={router} />
+				</div>
 			</div>
-		</div>
+		</StoreProvider>
 	);
 }
 

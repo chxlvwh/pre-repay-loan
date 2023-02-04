@@ -13,10 +13,13 @@ import {
 } from 'antd';
 import { loanTermOptions, loanTypes, repayPlans } from '../../contants';
 import dayjs from 'dayjs';
-import BeforePreRepayTable from '../preRepay/BeforePreRepayTable';
-import PreRepayTable from '../preRepay/preRepayTable';
-import AfterPreRepayTable from '../preRepay/AfterPreRepayTable';
+import BeforePreRepayTable from '../PreRepay/BeforePreRepayTable';
+import PreRepayTable from '../PreRepay/preRepayTable';
+import AfterPreRepayTable from '../PreRepay/AfterPreRepayTable';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import HeaderPage from '../Header/HeaderPage';
+import HeaderDesc from '../Header/HeaderDesc';
 
 export interface IFormProps {
 	loanAmount: number;
@@ -37,44 +40,46 @@ export interface IFormProps {
 }
 const SearchForm: React.FC = () => {
 	const [form] = Form.useForm<IFormProps>();
-	// const initialValues: IFormProps = {
-	// 	loanAmount: 1190000,
-	// 	loanYearTerm: 0,
-	// 	loanMonthTerm: 360,
-	// 	loanType: 0,
-	// 	rates: 6.027,
-	// 	firstRepayDate: dayjs('2019-10'),
-	// 	preRepayList: [
-	// 		{
-	// 			prepayDate: dayjs('2023-03'),
-	// 			prepayType: 0,
-	// 			prepayAmount: 100000,
-	// 			newRates: 6.027,
-	// 			newRepayType: 0,
-	// 			repayPlan: 0,
-	// 			newMonthlyAmount: 7155.32,
-	// 		},
-	// 	],
-	// };
-	const initialValues: IFormProps = {
-		loanAmount: 0,
-		loanYearTerm: 0,
-		loanMonthTerm: 0,
-		loanType: 0,
-		rates: 0,
-		firstRepayDate: dayjs(),
-		preRepayList: [
-			{
-				prepayDate: dayjs(),
-				prepayType: 0,
-				prepayAmount: 0,
-				newRates: 0,
-				newRepayType: 0,
-				repayPlan: 0,
-				newMonthlyAmount: 0,
-			},
-		],
-	};
+	const initialValues: IFormProps =
+		process.env.NODE_ENV === 'development'
+			? {
+					loanAmount: 1190000,
+					loanYearTerm: 0,
+					loanMonthTerm: 360,
+					loanType: 0,
+					rates: 6.027,
+					firstRepayDate: dayjs('2019-10'),
+					preRepayList: [
+						{
+							prepayDate: dayjs('2023-05'),
+							prepayType: 0,
+							prepayAmount: 100000,
+							newRates: 6.027,
+							newRepayType: 0,
+							repayPlan: 0,
+							newMonthlyAmount: 7155.32,
+						},
+					],
+			  }
+			: {
+					loanAmount: 0,
+					loanYearTerm: 0,
+					loanMonthTerm: 0,
+					loanType: 0,
+					rates: 0,
+					firstRepayDate: dayjs(),
+					preRepayList: [
+						{
+							prepayDate: dayjs(),
+							prepayType: 0,
+							prepayAmount: 0,
+							newRates: 0,
+							newRepayType: 0,
+							repayPlan: 0,
+							newMonthlyAmount: 0,
+						},
+					],
+			  };
 	const [formValues, setFormValues] = useState<IFormProps>(initialValues);
 	const onCheck = async () => {
 		try {
@@ -88,6 +93,8 @@ const SearchForm: React.FC = () => {
 
 	return (
 		<>
+			<HeaderPage />
+			<HeaderDesc />
 			<Form
 				form={form}
 				className="search-form-wrapper"
@@ -190,6 +197,22 @@ const SearchForm: React.FC = () => {
 								>
 									计算
 								</Button>
+
+								<Link to="/detail">
+									<Button
+										size="large"
+										type="primary"
+										onClick={onCheck}
+										block
+										danger
+										style={{
+											width: '400px',
+											margin: '20px',
+										}}
+									>
+										查看每月还款明细
+									</Button>
+								</Link>
 							</Form.Item>
 
 							<Tooltip title="添加提前还款计划">
@@ -197,7 +220,11 @@ const SearchForm: React.FC = () => {
 									shape="circle"
 									type="primary"
 									onClick={() =>
-										add(initialValues.preRepayList[0])
+										add(
+											form.getFieldValue(
+												'preRepayList',
+											)[0],
+										)
 									}
 									style={{ top: 100, right: 94 }}
 									icon={<PlusOutlined />}

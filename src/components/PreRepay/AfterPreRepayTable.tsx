@@ -1,13 +1,12 @@
 import React from 'react';
 import { Table, Typography } from 'antd';
 import {
-	DateFormat,
 	getBeforePreRepayTableColumns,
 	getPreRepayTableData,
 } from '../../contants';
-import { IFormProps } from '../searchForm/SearchForm';
+import { IFormProps } from '../SearchForm/SearchForm';
 
-const PreRepayTable = ({
+const AfterPreRepayTable = ({
 	formValues,
 	index,
 }: {
@@ -17,23 +16,18 @@ const PreRepayTable = ({
 	return (
 		<>
 			<Typography.Title level={4}>
-				第 {index + 1} 次提前还款（
-				{formValues.preRepayList[index].prepayDate &&
-					formValues.preRepayList[index].prepayDate.format(
-						DateFormat.YM,
-					)}
-				）
+				第 {index + 1} 次提前还款后
 			</Typography.Title>
 			<Table
 				bordered={true}
 				size={'small'}
 				showHeader={false}
 				columns={getBeforePreRepayTableColumns()}
-				dataSource={getPreRepayTableData(formValues, index).before}
+				dataSource={getPreRepayTableData(formValues, index).after}
 				pagination={false}
 			/>
 		</>
 	);
 };
 
-export default PreRepayTable;
+export default AfterPreRepayTable;
